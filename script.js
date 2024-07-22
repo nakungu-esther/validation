@@ -1,55 +1,49 @@
-//collecting user inputs and storing them in variables
-const userInput = {
-    username: document.getElementById('username').value,
-    email: document.getElementById('email').value,
-    role: document.getElementById('roles').value,
-    branch: document.getElementById('branch').value,
-    password: document.getElementById('password').value,
-    confirmpassword: document.getElementById('confirmpassword').value,
+// fuction for submitting form
+function submitForm() {
+  // collecting user inputs and storing them in variables
+  let username = document.getElementById("username").value;
+  let email = document.getElementById("email").value;
+  let role = document.getElementById("roles").value;
+  let branch = document.getElementById("branch").value;
+  let password = document.getElementById("password").value;
+  let confirmpassword = document.getElementById("confirmpassword").value;
+
+  const validEmailFormat =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+  // check if all fields are filled
+  if (
+    !username ||
+    !email ||
+    !role ||
+    !branch ||
+    !password ||
+    !confirmpassword
+  ) {
+    alert("Please fill out all the required fields!");
+    return;
+  } else if (!email.match(validEmailFormat)) {
+    // check if email is valid
+    alert("Please enter a valid email address!");
+    return;
+  } else if (password !== confirmpassword) {
+    // check if password matches confirm password
+    alert("Passwords do not match, please try again!");
+    return;
+  } else {
+    // if all checks pass, display success message
+    alert("You have been successfully registered!");
+    return;
+  }
 }
-// Function to validate email
-function validateEmail(email) {
-    const regex = /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
-    if (!regex.test(email)) {
-        alert('Invalid email address!');
-        return false;
-    }
-    return true;
-};
 
+// get submit button and add event listener
+let submitButton = document.getElementById("submit");
 
-//checking if password matches confirm password
-function checkpassword(password, confirmpassword) {
-    if (password !== confirmpassword) {
-        alert('Passwords do not match!');
-        return false;
-    }
-    return true;
-}
+submitButton.addEventListener("click", function (event) {
+    event.preventDefault(); // prevent form from submitting normally
 
-// Function to check if all required fields are filled
-function checkUserInputs({ username, email, role, branch, password, confirmpassword })  {
-    if (!username || !email || !role || !branch || !password || !confirmpassword) {
-        alert('All fields are required!');
-        return false;
-    }
-    return true;
-};
-
-// getting the submit button
-let submitButton = document.getElementById('submit');
-
-// adding event listener to the submit button
-
-submitButton.addEventListener('click', function (event) {
-    event.preventDefault(); // preventing the form from submitting normally
-
-    if ( !checkpassword(userInput.password, userInput.confirmpassword) || !checkUserInputs(userInput)) {
-        return; // if any of the validations fail, return without submitting the form
-    }
-
-    console.log('submit form successfully')
-
-    // resetting the form
-    document.getElementById('form').reset();
+    submitForm(); // call function to validate and submit form
+    
+    document.getElementById("form").reset(); // reset form after successful submission
 });
